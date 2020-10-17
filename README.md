@@ -1,2 +1,2 @@
 # geek_study
-Python Homework from Geekbrains
+Домашка 4 урок, без 7 задачи
