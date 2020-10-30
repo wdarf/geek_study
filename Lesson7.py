@@ -13,7 +13,6 @@
 
 class Matrix:
     def __init__(self, list1, list2):
-        self.matrix = [list1, list2]
         self.list1 = list1
         self.list2 = list2
 
@@ -26,7 +25,7 @@ class Matrix:
         return str('\n'.join(['\t'.join([str(j) for j in i]) for i in matrix]))
 
     def __str__(self):
-        return str('\n'.join(['\t'.join([str(j) for j in i]) for i in self.matrix]))
+        return str('\n'.join(['\t'.join([str(j) for j in i]) for i in matrix]))
 
 
 my_matrix = Matrix([[10, 1, 12],
@@ -48,29 +47,51 @@ print(my_matrix)
 Реализовать общий подсчет расхода ткани. Проверить на практике полученные на этом уроке знания: реализовать абстрактные
 классы для основных классов проекта, проверить на практике работу декоратора @property.
 """
+from abc import abstractmethod
+
+
 class Clothing:
-    def __init__(self, length, width):
-        self.length = length
-        self.width = width
+    def __init__(self, some_param):
+        self.some_param = some_param
 
-    def square_v(self):
-        return self.square_v / 6.5 + 0.5
-
-    def square_h(self):
-        return self.square_h * 2 + 0.3
-
+    @property
     def square_all(self):
-        return
+        return f"Метраж использованной ткани равен: {self.some_param / 6.5 + 0.5 + self.some_param * 2 + 0.3}"
+
+    @abstractmethod
+    def abstract(self):
+        return '"Это абстрактный метод"'
 
 
+class Coat(Clothing):
+    def square_coat(self):
+        return f'Для пошива пальто нужно: {self.some_param / 6.5 + 0.5 :.2f}м ткани'
+
+    def abstract(self):
+        return 'А это другой абстрактный метод'
+
+
+class Costume(Clothing):
+    def square_costume(self):
+        return f'Для пошива костюма нужно: {2 * self.some_param + 0.3 :.2f}м ткани'
+
+    def abstract(self):
+        pass
+
+
+coat = Coat(15)
+costume = Costume(10)
+print(coat.square_coat())
+print(costume.square_costume())
+print(coat.abstract())
 
 
 """
 3. Реализовать программу работы с органическими клетками. Необходимо создать класс Клетка. В его конструкторе
 инициализировать параметр, соответствующий количеству клеток (целое число). В классе должны быть реализованы методы
-перегрузки арифметических операторов: сложение (__add__()), вычитание (__sub__()), умножение (__mul__()), деление 
-(__truediv__()).Данные методы должны применяться только к клеткам и выполнять увеличение, уменьшение, умножение и 
-обычное (не целочисленное) деление клеток, соответственно. В методе деления должно осуществляться округление значения 
+перегрузки арифметических операторов: сложение (__add__()), вычитание (__sub__()), умножение (__mul__()), деление
+(__truediv__()).Данные методы должны применяться только к клеткам и выполнять увеличение, уменьшение, умножение и
+обычное (не целочисленное) деление клеток, соответственно. В методе деления должно осуществляться округление значения
 до целого числа.
 Сложение. Объединение двух клеток. При этом число ячеек общей клетки должно равняться сумме ячеек исходных двух клеток.
 Вычитание. Участвуют две клетки. Операцию необходимо выполнять только если разность количества ячеек двух клеток больше
@@ -89,3 +110,18 @@ class Clothing:
 строку: *****\n*****\n*****.
 Подсказка: подробный список операторов для перегрузки доступен по ссылке.
 """
+class Cell:
+    def __init__(self, quantity):
+        self.quantity = quantity
+
+    def __add__(self, other):
+        return f"Астрологи объявили неделю роста клеток, милорд! Клетки растут и их уже {self.quantity + other.quantity}!"
+
+    def __sub__(self, other):
+        sub = self.quantity - other.quantity
+        return f"Произошло деление и теперь клетка равна: {sub}" if sub > 0 else "Клетка поделилась на ноль, такие дела))"
+
+    def __mul__(self, other):
+
+
+    def __truediv__(self, other):
