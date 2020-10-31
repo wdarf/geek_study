@@ -12,29 +12,29 @@
 
 
 class Matrix:
-    def __init__(self, list1, list2):
+    def __init__(self, list1):
         self.list1 = list1
-        self.list2 = list2
-
-    def __add__(self):
-        matrix = [[0, 0, 0],
-                  [0, 0, 0]]
-        for i in range(len(self.list1)):
-            for j in range(len(self.list2[i])):
-                matrix[i][j] = self.list1[i][j] + self.list2[i][j]
-        return str('\n'.join(['\t'.join([str(j) for j in i]) for i in matrix]))
 
     def __str__(self):
-        return str('\n'.join(['\t'.join([str(j) for j in i]) for i in matrix]))
+        for row in self.list1:
+            for i in row:
+                print(f"{i:4}", end="")
+            print()
+        return ""
+
+    def __add__(self, other):
+        for i in range(len(self.list1)):
+            for j in range(len(other.list1[i])):
+               self.list1[i][j] = self.list1[i][j] + self.list1[i][j]
+        return Matrix.__str__(self)
+
+    def __str__(self):
+        return str('\n'.join(['\t'.join([str(j) for j in i]) for i in self.list1]))
 
 
-my_matrix = Matrix([[10, 1, 12],
-                    [42, 22, 10]],
-                   [[4, 84, 52],
-                    [17, 81, 0]])
-
-print(my_matrix.__add__())
-print(my_matrix)
+matrix = Matrix([[-1, 5, 7], [3, 5, 8], [12, 9, -13], [0, 2, 7]])
+new_matrix = Matrix([[10, -1, 2], [3, 5, 6], [1, 2, -3], [2, 5, 0]])
+print(matrix.__add__(new_matrix))
 
 
 """
@@ -110,6 +110,8 @@ print(coat.abstract())
 строку: *****\n*****\n*****.
 Подсказка: подробный список операторов для перегрузки доступен по ссылке.
 """
+
+
 class Cell:
     def __init__(self, quantity):
         self.quantity = quantity
@@ -122,6 +124,23 @@ class Cell:
         return f"Произошло деление и теперь клетка равна: {sub}" if sub > 0 else "Клетка поделилась на ноль, такие дела))"
 
     def __mul__(self, other):
-
+        return f"Оккам приумножил сущностей! Клеток стало: {self.quantity * other.quantity}"
 
     def __truediv__(self, other):
+        return f"Клетка: 'В детстве меня учили делиться, но что-то пошло не так...и меня стало: {self.quantity // other.quantity}'"
+
+    def make_order(self, row):
+        result = ''
+        for i in range(int(self.quantity / row)):
+            result += '*' * row + '\n'
+        result += '*' * (self.quantity % row) + '\n'
+        return result
+
+
+cell = Cell(10)
+cell_2 = Cell(3)
+print(cell + cell_2)
+print(cell - cell_2)
+print(cell * cell_2)
+print(cell / cell_2)
+print(cell.make_order(7))
